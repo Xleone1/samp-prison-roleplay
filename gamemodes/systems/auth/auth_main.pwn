@@ -100,6 +100,12 @@ public OnCheckAccountResult(playerid)
         cache_get_value_name_int(0, "Dinero", PlayerData[playerid][pDinero]);
         cache_get_value_name_int(0, "Horas", PlayerData[playerid][pHoras]);
         cache_get_value_name_int(0, "Baneado", PlayerData[playerid][pBaneado]);
+        cache_get_value_name_float(0, "PosX", PlayerData[playerid][pPosX]);
+        cache_get_value_name_float(0, "PosY", PlayerData[playerid][pPosY]);
+        cache_get_value_name_float(0, "PosZ", PlayerData[playerid][pPosZ]);
+        cache_get_value_name_float(0, "PosA", PlayerData[playerid][pPosA]);
+        cache_get_value_name_int(0, "PosWorld", PlayerData[playerid][pPosWorld]);
+        cache_get_value_name_int(0, "PosInterior", PlayerData[playerid][pPosInterior]);
 
         if(PlayerData[playerid][pBaneado] == 1)
         {

@@ -53,7 +53,7 @@ public OnGameModeInit()
     SetWeather(10);
     SetWorldTime(8);
 
-    AddPlayerClass(0, PRISION_SPAWN_X, PRISION_SPAWN_Y, PRISION_SPAWN_Z, PRISION_SPAWN_A, WEAPON:0, 0, WEAPON:0, 0, WEAPON:0, 0);
+    AddPlayerClass(60, PRISION_SPAWN_X, PRISION_SPAWN_Y, PRISION_SPAWN_Z, PRISION_SPAWN_A, WEAPON:0, 0, WEAPON:0, 0, WEAPON:0, 0);
 
     LoadPrisonExterior();
     LoadPrisonInterior();
@@ -99,10 +99,15 @@ public OnPlayerDisconnect(playerid, reason)
 {
     if(PlayerData[playerid][pLogueado] == 1)
     {
+        GetPlayerPos(playerid, PlayerData[playerid][pPosX], PlayerData[playerid][pPosY], PlayerData[playerid][pPosZ]);
+        GetPlayerFacingAngle(playerid, PlayerData[playerid][pPosA]);
+        PlayerData[playerid][pPosWorld] = GetPlayerVirtualWorld(playerid);
+        PlayerData[playerid][pPosInterior] = GetPlayerInterior(playerid);
+
         new query[512];
         mysql_format(g_SQL, query, sizeof(query),
-            "UPDATE `users` SET `Dinero` = %d, `Horas` = `Horas` + 1, `UltimaVez` = NOW() WHERE `Id` = %d",
-            PlayerData[playerid][pDinero], PlayerData[playerid][pId]);
+            "UPDATE `users` SET `Dinero` = %d, `Horas` = `Horas` + 1, `UltimaVez` = NOW(), `PosX` = %f, `PosY` = %f, `PosZ` = %f, `PosA` = %f, `PosWorld` = %d, `PosInterior` = %d WHERE `Id` = %d",
+            PlayerData[playerid][pDinero], PlayerData[playerid][pPosX], PlayerData[playerid][pPosY], PlayerData[playerid][pPosZ], PlayerData[playerid][pPosA], PlayerData[playerid][pPosWorld], PlayerData[playerid][pPosInterior], PlayerData[playerid][pId]);
         mysql_tquery(g_SQL, query);
     }
     KillTimer(TimerSegundo[playerid]);
@@ -112,7 +117,18 @@ public OnPlayerDisconnect(playerid, reason)
 public OnPlayerSpawn(playerid)
 {
     if(PlayerData[playerid][pLogueado] == 1)
-        SpawnPlayerInPrison(playerid);
+    {
+        if(PlayerData[playerid][pPosX] != 0.0 && PlayerData[playerid][pPosY] != 0.0)
+        {
+            SetPlayerInterior(playerid, PlayerData[playerid][pPosInterior]);
+            SetPlayerVirtualWorld(playerid, PlayerData[playerid][pPosWorld]);
+            SetPlayerPos(playerid, PlayerData[playerid][pPosX], PlayerData[playerid][pPosY], PlayerData[playerid][pPosZ]);
+            SetPlayerFacingAngle(playerid, PlayerData[playerid][pPosA]);
+            SetCameraBehindPlayer(playerid);
+        }
+        else
+            SpawnPlayerInPrison(playerid);
+    }
     return 1;
 }
 

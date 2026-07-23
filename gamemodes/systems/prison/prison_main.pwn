@@ -13,8 +13,8 @@ stock SetPlayerCameraIntro(playerid)
 
 stock SpawnPlayerInPrison(playerid)
 {
-    SetPlayerInterior(playerid, 0);
-    SetPlayerVirtualWorld(playerid, 0);
+    SetPlayerInterior(playerid, SPAWN_INT_INTERIOR);
+    SetPlayerVirtualWorld(playerid, SPAWN_INT_WORLD);
     SetPlayerPos(playerid, PRISION_SPAWN_X, PRISION_SPAWN_Y, PRISION_SPAWN_Z);
     SetPlayerFacingAngle(playerid, PRISION_SPAWN_A);
     SetCameraBehindPlayer(playerid);

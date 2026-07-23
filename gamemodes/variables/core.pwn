@@ -26,7 +26,13 @@ enum E_PLAYER_DATA
     pConducta,
     pTrabajo,
     pFaccion,
-    pFaccionRango
+    pFaccionRango,
+    Float:pPosX,
+    Float:pPosY,
+    Float:pPosZ,
+    Float:pPosA,
+    pPosWorld,
+    pPosInterior
 }
 new PlayerData[MAX_PLAYERS][E_PLAYER_DATA];
 new TimerSegundo[MAX_PLAYERS];

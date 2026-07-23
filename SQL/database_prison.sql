@@ -23,6 +23,12 @@ CREATE TABLE IF NOT EXISTS `users` (
     `Horas` INT NOT NULL DEFAULT 0,
     `PrimeraVez` DATETIME NOT NULL,
     `UltimaVez` DATETIME DEFAULT NULL,
+    `PosX` FLOAT NOT NULL DEFAULT 0,
+    `PosY` FLOAT NOT NULL DEFAULT 0,
+    `PosZ` FLOAT NOT NULL DEFAULT 0,
+    `PosA` FLOAT NOT NULL DEFAULT 0,
+    `PosWorld` INT NOT NULL DEFAULT 0,
+    `PosInterior` INT NOT NULL DEFAULT 0,
     `Baneado` INT NOT NULL DEFAULT 0,
     `RazonBan` VARCHAR(128) DEFAULT NULL,
     PRIMARY KEY (`Id`),
@@ -120,3 +126,14 @@ CREATE TABLE IF NOT EXISTS `cells` (
     `Camas` INT NOT NULL DEFAULT 2,
     PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
+-- MIGRATION: add position columns (run if upgrading from old schema)
+-- ============================================================
+-- ALTER TABLE `users`
+--   ADD COLUMN `PosX` FLOAT NOT NULL DEFAULT 0 AFTER `UltimaVez`,
+--   ADD COLUMN `PosY` FLOAT NOT NULL DEFAULT 0 AFTER `PosX`,
+--   ADD COLUMN `PosZ` FLOAT NOT NULL DEFAULT 0 AFTER `PosY`,
+--   ADD COLUMN `PosA` FLOAT NOT NULL DEFAULT 0 AFTER `PosZ`,
+--   ADD COLUMN `PosWorld` INT NOT NULL DEFAULT 0 AFTER `PosA`,
+--   ADD COLUMN `PosInterior` INT NOT NULL DEFAULT 0 AFTER `PosWorld`;

@@ -26,7 +26,9 @@ main()
 
 public OnGameModeInit()
 {
-    g_SQL = mysql_connect_file(MYSQL_CONFIG);
+    new MySQLOpt:options = mysql_init_options();
+    mysql_set_option(options, SSL_ENABLE, 0);
+    g_SQL = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, options);
     if(g_SQL == MYSQL_INVALID_HANDLE || mysql_errno(g_SQL) != 0)
     {
         print("[ERROR] MySQL. Servidor detenido.");

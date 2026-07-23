@@ -1,0 +1,34 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install i386 libs for pawncc
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libc6:i386
+
+      - name: Compile gamemode
+        run: |
+          cd gamemodes
+          export LD_LIBRARY_PATH="$PWD/../qawno"
+          ../qawno/pawncc main.pwn -omain.amx -i"$PWD/../qawno/include"
+
+      - name: Sync to VPS
+        uses: easingthemes/ssh-deploy@v4.1.8
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.VPS_HOST }}
+          REMOTE_USER: ${{ secrets.VPS_USER }}
+          SOURCE: .
+          TARGET: /home/ubuntu/samp-prison
+          EXCLUDE: ".git/, .gitignore, .github/, .opencode/, mysql.ini, mysql.ini.example, */.gitkeep"
+          ARGS: -rlptDvz --delete

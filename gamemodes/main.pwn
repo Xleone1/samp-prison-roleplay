@@ -57,7 +57,7 @@ public OnGameModeInit()
 
     LoadPrisonExterior();
     LoadPrisonInterior();
-    CreatePrisonCheckpoints();
+    CreatePrisonDoors();
 
     print("[SERVER] San Andreas Prison RP iniciado.");
     return 1;

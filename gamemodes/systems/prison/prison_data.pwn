@@ -25,6 +25,9 @@
 #define SPAWN_INT_WORLD      871
 #define SPAWN_INT_INTERIOR   14
 
+#define PUERTA_MODEL         1239
+#define PUERTA_TYPE          2
+
 new const gPabellonNombres[PABELLON_MAX][] =
 {
     "Pabellon A",

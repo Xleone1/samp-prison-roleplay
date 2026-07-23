@@ -1,8 +1,10 @@
 
 forward PrisonTimerSegundo(playerid);
 
-new gExtCP = -1;
-new gIntCP = -1;
+new gExtPickup = -1;
+new gIntPickup = -1;
+new STREAMER_TAG_3D_TEXT_LABEL:gExtLabel = STREAMER_TAG_3D_TEXT_LABEL:-1;
+new STREAMER_TAG_3D_TEXT_LABEL:gIntLabel = STREAMER_TAG_3D_TEXT_LABEL:-1;
 
 stock SetPlayerCameraIntro(playerid)
 {
@@ -43,32 +45,38 @@ stock SpawnPlayerInPrison(playerid)
     return 1;
 }
 
-stock CreatePrisonCheckpoints()
+stock CreatePrisonDoors()
 {
-    gExtCP = CreateDynamicCircle(EXT_DOOR_X, EXT_DOOR_Y, 2.0, 0, 0);
-    gIntCP = CreateDynamicCircle(INT_DOOR_X, INT_DOOR_Y, 2.0, PRISION_INT_WORLD, PRISION_INT_INTERIOR);
+    gExtPickup = CreatePickup(PUERTA_MODEL, PUERTA_TYPE, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z, 0);
+    gIntPickup = CreatePickup(PUERTA_MODEL, PUERTA_TYPE, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z, PRISION_INT_WORLD);
+
+    gExtLabel = CreateDynamic3DTextLabel("Presiona F para entrar", COLOR_AMARILLO, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z + 0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 0, 0);
+    gIntLabel = CreateDynamic3DTextLabel("Presiona F para salir", COLOR_AMARILLO, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z + 0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, PRISION_INT_WORLD, PRISION_INT_INTERIOR);
     return 1;
 }
 
-public OnPlayerEnterDynamicArea(playerid, areaid)
+public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
-    if(areaid == gExtCP && PlayerData[playerid][pLogueado] == 1)
+    if(newkeys & KEY_YES && PlayerData[playerid][pLogueado] == 1)
     {
-        SetPlayerInterior(playerid, PRISION_INT_INTERIOR);
-        SetPlayerVirtualWorld(playerid, PRISION_INT_WORLD);
-        SetPlayerPos(playerid, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z);
-        SetPlayerFacingAngle(playerid, 0.0);
-        SetCameraBehindPlayer(playerid);
-        return 1;
-    }
-    if(areaid == gIntCP && PlayerData[playerid][pLogueado] == 1)
-    {
-        SetPlayerInterior(playerid, 0);
-        SetPlayerVirtualWorld(playerid, 0);
-        SetPlayerPos(playerid, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z);
-        SetPlayerFacingAngle(playerid, 270.0);
-        SetCameraBehindPlayer(playerid);
-        return 1;
+        if(IsPlayerInRangeOfPoint(playerid, 2.0, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z) && GetPlayerVirtualWorld(playerid) == 0)
+        {
+            SetPlayerInterior(playerid, PRISION_INT_INTERIOR);
+            SetPlayerVirtualWorld(playerid, PRISION_INT_WORLD);
+            SetPlayerPos(playerid, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z);
+            SetPlayerFacingAngle(playerid, 0.0);
+            SetCameraBehindPlayer(playerid);
+            return 1;
+        }
+        if(IsPlayerInRangeOfPoint(playerid, 2.0, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z) && GetPlayerVirtualWorld(playerid) == PRISION_INT_WORLD)
+        {
+            SetPlayerInterior(playerid, 0);
+            SetPlayerVirtualWorld(playerid, 0);
+            SetPlayerPos(playerid, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z);
+            SetPlayerFacingAngle(playerid, 270.0);
+            SetCameraBehindPlayer(playerid);
+            return 1;
+        }
     }
     return 0;
 }

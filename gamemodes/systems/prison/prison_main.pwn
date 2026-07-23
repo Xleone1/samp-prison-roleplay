@@ -2,9 +2,7 @@
 forward PrisonTimerSegundo(playerid);
 
 new gExtPickup = -1;
-new gIntPickup = -1;
 new STREAMER_TAG_3D_TEXT_LABEL:gExtLabel = STREAMER_TAG_3D_TEXT_LABEL:-1;
-new STREAMER_TAG_3D_TEXT_LABEL:gIntLabel = STREAMER_TAG_3D_TEXT_LABEL:-1;
 
 stock SetPlayerCameraIntro(playerid)
 {
@@ -15,8 +13,8 @@ stock SetPlayerCameraIntro(playerid)
 
 stock SpawnPlayerInPrison(playerid)
 {
-    SetPlayerInterior(playerid, SPAWN_INT_INTERIOR);
-    SetPlayerVirtualWorld(playerid, SPAWN_INT_WORLD);
+    SetPlayerInterior(playerid, 0);
+    SetPlayerVirtualWorld(playerid, 0);
     SetPlayerPos(playerid, PRISION_SPAWN_X, PRISION_SPAWN_Y, PRISION_SPAWN_Z);
     SetPlayerFacingAngle(playerid, PRISION_SPAWN_A);
     SetCameraBehindPlayer(playerid);
@@ -48,10 +46,7 @@ stock SpawnPlayerInPrison(playerid)
 stock CreatePrisonDoors()
 {
     gExtPickup = CreatePickup(PUERTA_MODEL, PUERTA_TYPE, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z, 0);
-    gIntPickup = CreatePickup(PUERTA_MODEL, PUERTA_TYPE, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z, PRISION_INT_WORLD);
-
     gExtLabel = CreateDynamic3DTextLabel("Presiona F para entrar", COLOR_AMARILLO, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z + 0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 0, 0);
-    gIntLabel = CreateDynamic3DTextLabel("Presiona F para salir", COLOR_AMARILLO, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z + 0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, PRISION_INT_WORLD, PRISION_INT_INTERIOR);
     return 1;
 }
 
@@ -61,20 +56,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
     {
         if(IsPlayerInRangeOfPoint(playerid, 2.0, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z) && GetPlayerVirtualWorld(playerid) == 0)
         {
-            SetPlayerInterior(playerid, PRISION_INT_INTERIOR);
-            SetPlayerVirtualWorld(playerid, PRISION_INT_WORLD);
-            SetPlayerPos(playerid, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z);
-            SetPlayerFacingAngle(playerid, 0.0);
-            SetCameraBehindPlayer(playerid);
-            return 1;
-        }
-        if(IsPlayerInRangeOfPoint(playerid, 2.0, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z) && GetPlayerVirtualWorld(playerid) == PRISION_INT_WORLD)
-        {
-            SetPlayerInterior(playerid, 0);
-            SetPlayerVirtualWorld(playerid, 0);
-            SetPlayerPos(playerid, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z);
-            SetPlayerFacingAngle(playerid, 270.0);
-            SetCameraBehindPlayer(playerid);
+            SendClientMessage(playerid, COLOR_GRIS, "El interior aun no esta disponible.");
             return 1;
         }
     }

@@ -56,7 +56,6 @@ public OnGameModeInit()
     AddPlayerClass(60, PRISION_SPAWN_X, PRISION_SPAWN_Y, PRISION_SPAWN_Z, PRISION_SPAWN_A, WEAPON:0, 0, WEAPON:0, 0, WEAPON:0, 0);
 
     LoadPrisonExterior();
-    LoadPrisonInterior();
     CreatePrisonDoors();
 
     print("[SERVER] San Andreas Prison RP iniciado.");

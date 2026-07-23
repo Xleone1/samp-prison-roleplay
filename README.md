@@ -13,34 +13,32 @@ Servidor de roleplay carcelario para open.mp / SA-MP.
 1. Crear la base de datos e importar el schema:
 
 ```bash
-mysql -u root -p < Server/SQL/database_prison.sql
+mysql -u root -p < SQL/database_prison.sql
 ```
 
 2. Configurar credenciales de la base de datos:
 
 ```bash
-cp Server/mysql.ini.example Server/mysql.ini
-# editar Server/mysql.ini con tus credenciales
+cp mysql.ini.example mysql.ini
+# editar mysql.ini con tus credenciales
 ```
 
 3. Compilar el gamemode:
 
 ```bash
-cd Server/gamemodes
+cd gamemodes
 ./compile
 ```
 
 4. Iniciar el servidor:
 
 ```bash
-cd Server
 ./omp-server
 ```
 
 ## Estructura del proyecto
 
 ```
-Server/
  +-- config.json              configuracion del servidor
  +-- mysql.ini                credenciales MySQL (gitignorado)
  +-- omp-server               binario del servidor open.mp

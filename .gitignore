@@ -1,13 +1,13 @@
 # Server runtime
-Server/bans.json
-Server/log.txt
-Server/logs/
+bans.json
+log.txt
+logs/
 
 # MySQL credentials
-Server/mysql.ini
+mysql.ini
 
 # Compiled AMX (generated from .pwn)
-Server/gamemodes/*.amx
+gamemodes/*.amx
 
 # OS files
 .DS_Store

@@ -10,6 +10,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
     {
         SendClientMessage(playerid, COLOR_PRISION, "|___ Comandos San Andreas Prison RP ___|");
         SendClientMessage(playerid, COLOR_BLANCO, "/ayuda - Este menu");
+        SendClientMessage(playerid, COLOR_BLANCO, "/entrar - Entrar a un edificio");
         SendClientMessage(playerid, COLOR_BLANCO, "/celda - Gestionar tu celda");
         SendClientMessage(playerid, COLOR_BLANCO, "/trabajo - Ver trabajos disponibles");
         SendClientMessage(playerid, COLOR_BLANCO, "/faccion - Info de tu faccion");
@@ -179,6 +180,17 @@ Usa /solicitar [numero] para pedir un trabajo.");
         format(msg, sizeof(msg), "Has enviado a %s a prision por %d segundos.", PlayerData[target][pNombre], segundos);
         SendClientMessage(playerid, COLOR_ADMIN, msg);
         SpawnPlayerInPrison(target);
+        return 1;
+    }
+
+    if(strcmp(cmdtext, "/entrar", true, 7) == 0)
+    {
+        if(IsPlayerInRangeOfPoint(playerid, 3.0, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z) && GetPlayerVirtualWorld(playerid) == 0)
+        {
+            SendClientMessage(playerid, COLOR_GRIS, "El interior aun no esta disponible.");
+            return 1;
+        }
+        SendClientMessage(playerid, COLOR_GRIS, "No hay ninguna puerta cerca.");
         return 1;
     }
 

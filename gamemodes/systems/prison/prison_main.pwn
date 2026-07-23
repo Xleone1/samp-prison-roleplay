@@ -46,25 +46,8 @@ stock SpawnPlayerInPrison(playerid)
 stock CreatePrisonDoors()
 {
     gExtPickup = CreateDynamicPickup(PUERTA_MODEL, 1, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z, 0, 0);
-    gExtLabel = CreateDynamic3DTextLabel("Presiona F para entrar", COLOR_AMARILLO, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z + 0.5, 10.0);
+    gExtLabel = CreateDynamic3DTextLabel("Usa /entrar para entrar", COLOR_AMARILLO, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z + 0.5, 10.0);
     return 1;
-}
-
-public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
-{
-    if(PlayerData[playerid][pLogueado] == 0)
-        return 0;
-
-    if(_:newkeys & _:KEY_YES)
-    {
-        if(IsPlayerInRangeOfPoint(playerid, 2.0, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z) && GetPlayerVirtualWorld(playerid) == 0)
-        {
-            GameTextForPlayer(playerid, "~r~Interior no disponible", 3000, 3);
-            SendClientMessage(playerid, COLOR_GRIS, "El interior aun no esta disponible.");
-            return 1;
-        }
-    }
-    return 0;
 }
 
 public PrisonTimerSegundo(playerid)
@@ -84,4 +67,17 @@ public PrisonTimerSegundo(playerid)
         }
     }
     return 1;
+}
+
+public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
+{
+    if(PlayerData[playerid][pLogueado] == 0)
+        return 0;
+
+    if(IsPlayerInRangeOfPoint(playerid, 3.0, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z) && GetPlayerVirtualWorld(playerid) == 0 && _:newkeys & _:KEY_YES)
+    {
+        SendClientMessage(playerid, COLOR_GRIS, "Usa /entrar para entrar al edificio.");
+        return 1;
+    }
+    return 0;
 }

@@ -103,6 +103,7 @@
     "password": "",
     "pawn": {
         "legacy_plugins": [
+            "streamer",
             "mysql",
             "samp_bcrypt"
         ],

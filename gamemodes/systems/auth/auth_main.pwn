@@ -31,7 +31,7 @@ public OnLoginAfterRegister(playerid)
 
     SendClientMessage(playerid, COLOR_PRISION, "|___ San Andreas Prison RP ___|");
     SendClientMessage(playerid, COLOR_VERDE, "Bienvenido a la prision. Has sido registrado.");
-    SpawnPlayerInPrison(playerid);
+    TogglePlayerSpectating(playerid, false);
     return 1;
 }
 
@@ -47,7 +47,7 @@ public OnPasswordVerify(playerid, bool:success)
     PlayerData[playerid][pLogueado] = 1;
     SendClientMessage(playerid, COLOR_PRISION, "|___ San Andreas Prison RP ___|");
     SendClientMessage(playerid, COLOR_VERDE, "Sesion iniciada correctamente.");
-    SpawnPlayerInPrison(playerid);
+    TogglePlayerSpectating(playerid, false);
     return 1;
 }
 

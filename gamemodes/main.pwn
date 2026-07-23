@@ -3,6 +3,7 @@
 //
 
 #include <open.mp>
+#include <streamer>
 #include <a_mysql>
 #include <samp_bcrypt>
 #include <sscanf2>
@@ -16,6 +17,7 @@
 
 #include "systems/prison/prison_data.pwn"
 #include "systems/prison/prison_main.pwn"
+#include "systems/prison/prison_map.pwn"
 
 #include "systems/commands.pwn"
 
@@ -50,6 +52,12 @@ public OnGameModeInit()
 
     SetWeather(10);
     SetWorldTime(8);
+
+    AddPlayerClass(0, PRISION_SPAWN_X, PRISION_SPAWN_Y, PRISION_SPAWN_Z, PRISION_SPAWN_A, WEAPON:0, 0, WEAPON:0, 0, WEAPON:0, 0);
+
+    LoadPrisonExterior();
+    LoadPrisonInterior();
+    CreatePrisonCheckpoints();
 
     print("[SERVER] San Andreas Prison RP iniciado.");
     return 1;
@@ -103,15 +111,22 @@ public OnPlayerDisconnect(playerid, reason)
 
 public OnPlayerSpawn(playerid)
 {
-    if(PlayerData[playerid][pLogueado] == 1 && PlayerData[playerid][pSpawned] == 0)
+    if(PlayerData[playerid][pLogueado] == 1)
         SpawnPlayerInPrison(playerid);
     return 1;
 }
 
 public OnPlayerRequestClass(playerid, classid)
 {
-    SpawnPlayerInPrison(playerid);
-    return 0;
+    TogglePlayerSpectating(playerid, true);
+    SetPlayerCameraPos(playerid, INTRO_CAM_X, INTRO_CAM_Y, INTRO_CAM_Z);
+    SetPlayerCameraLookAt(playerid, INTRO_LOOK_X, INTRO_LOOK_Y, INTRO_LOOK_Z, CAMERA_MOVE);
+    return 1;
+}
+
+public OnPlayerRequestSpawn(playerid)
+{
+    return 1;
 }
 
 public OnPlayerDeath(playerid, killerid, WEAPON:reason)

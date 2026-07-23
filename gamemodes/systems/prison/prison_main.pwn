@@ -1,12 +1,20 @@
-//
-// prison_main.pwn
-//
 
 forward PrisonTimerSegundo(playerid);
+
+new gExtCP = -1;
+new gIntCP = -1;
+
+stock SetPlayerCameraIntro(playerid)
+{
+    TogglePlayerSpectating(playerid, true);
+    SetPlayerCameraPos(playerid, INTRO_CAM_X, INTRO_CAM_Y, INTRO_CAM_Z);
+    SetPlayerCameraLookAt(playerid, INTRO_LOOK_X, INTRO_LOOK_Y, INTRO_LOOK_Z, CAMERA_MOVE);
+}
 
 stock SpawnPlayerInPrison(playerid)
 {
     SetPlayerInterior(playerid, 0);
+    SetPlayerVirtualWorld(playerid, 0);
     SetPlayerPos(playerid, PRISION_SPAWN_X, PRISION_SPAWN_Y, PRISION_SPAWN_Z);
     SetPlayerFacingAngle(playerid, PRISION_SPAWN_A);
     SetCameraBehindPlayer(playerid);
@@ -33,6 +41,36 @@ stock SpawnPlayerInPrison(playerid)
     SendClientMessage(playerid, COLOR_PRISION, msg);
     SendClientMessage(playerid, COLOR_GRIS, "Usa /ayuda para ver los comandos.");
     return 1;
+}
+
+stock CreatePrisonCheckpoints()
+{
+    gExtCP = CreateDynamicCircle(EXT_DOOR_X, EXT_DOOR_Y, 2.0, 0, 0);
+    gIntCP = CreateDynamicCircle(INT_DOOR_X, INT_DOOR_Y, 2.0, PRISION_INT_WORLD, PRISION_INT_INTERIOR);
+    return 1;
+}
+
+public OnPlayerEnterDynamicArea(playerid, areaid)
+{
+    if(areaid == gExtCP && PlayerData[playerid][pLogueado] == 1)
+    {
+        SetPlayerInterior(playerid, PRISION_INT_INTERIOR);
+        SetPlayerVirtualWorld(playerid, PRISION_INT_WORLD);
+        SetPlayerPos(playerid, INT_DOOR_X, INT_DOOR_Y, INT_DOOR_Z);
+        SetPlayerFacingAngle(playerid, 0.0);
+        SetCameraBehindPlayer(playerid);
+        return 1;
+    }
+    if(areaid == gIntCP && PlayerData[playerid][pLogueado] == 1)
+    {
+        SetPlayerInterior(playerid, 0);
+        SetPlayerVirtualWorld(playerid, 0);
+        SetPlayerPos(playerid, EXT_DOOR_X, EXT_DOOR_Y, EXT_DOOR_Z);
+        SetPlayerFacingAngle(playerid, 270.0);
+        SetCameraBehindPlayer(playerid);
+        return 1;
+    }
+    return 0;
 }
 
 public PrisonTimerSegundo(playerid)

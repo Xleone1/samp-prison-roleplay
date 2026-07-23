@@ -16,7 +16,6 @@
 #define EXT_DOOR_Z           129.7566
 
 #define PUERTA_MODEL         1239
-#define PUERTA_TYPE          2
 
 new const gPabellonNombres[PABELLON_MAX][] =
 {

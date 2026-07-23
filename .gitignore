@@ -1,0 +1,25 @@
+# Server runtime
+Server/bans.json
+Server/log.txt
+Server/logs/
+
+# MySQL credentials
+Server/mysql.ini
+
+# Compiled AMX (generated from .pwn)
+Server/gamemodes/*.amx
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Compiled binaries (if any)
+*.dll
+*.exe

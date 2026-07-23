@@ -1,0 +1,5 @@
+hostname = localhost
+username = root
+password = yourpassword
+database = database_prison
+server_port = 3306
